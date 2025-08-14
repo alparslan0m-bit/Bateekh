@@ -53,29 +53,14 @@ class SnakeGame {
             });
         });
         
-        // Touch controls for swipe
-        this.canvas.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
-        this.canvas.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: false });
-        this.canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-        
-        // Prevent scrolling when touching the canvas
-        document.body.addEventListener('touchstart', (e) => {
-            if (e.target === this.canvas) {
+        // Touch controls for swipe with scroll prevention
+        ['touchstart', 'touchend', 'touchmove'].forEach(event => {
+            this.canvas.addEventListener(event, (e) => {
                 e.preventDefault();
-            }
-        }, { passive: false });
-        
-        document.body.addEventListener('touchend', (e) => {
-            if (e.target === this.canvas) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        document.body.addEventListener('touchmove', (e) => {
-            if (e.target === this.canvas) {
-                e.preventDefault();
-            }
-        }, { passive: false });
+                if (event === 'touchstart') this.handleTouchStart(e);
+                if (event === 'touchend') this.handleTouchEnd(e);
+            }, { passive: false });
+        });
     }
     
     handleKeyPress(e) {
@@ -320,14 +305,45 @@ class SnakeGame {
         const time = Date.now() / 200;
         const pulse = Math.sin(time) * 0.1 + 0.9;
         
-        this.ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--food-color');
-        
         const x = this.food.x * this.gridSize;
         const y = this.food.y * this.gridSize;
         const size = this.gridSize * pulse;
         const offset = (this.gridSize - size) / 2;
         
-        this.ctx.fillRect(x + offset, y + offset, size, size);
+        const drawSquare = (x, y, size, color) => {
+            this.ctx.fillStyle = color;
+            this.ctx.fillRect(x, y, size, size);
+        };
+        
+        // رسم القشرة الخضراء (الإطار الخارجي)
+        drawSquare(x + offset, y + offset, size, '#149954');
+        
+        // رسم الجزء الداخلي الأحمر
+        const innerOffset = size * 0.15;
+        const innerSize = size * 0.7;
+        drawSquare(
+            x + offset + innerOffset,
+            y + offset + innerOffset,
+            innerSize,
+            '#E4312B'
+        );
+
+        // رسم البذور
+        const seedSize = { w: size * 0.1, h: size * 0.05 };
+        const seeds = [
+            { x: 0.4, y: 0.3 },
+            { x: 0.5, y: 0.5 },
+            { x: 0.3, y: 0.6 }
+        ];
+        
+        seeds.forEach(seed => {
+            drawSquare(
+                x + offset + size * seed.x,
+                y + offset + size * seed.y,
+                seedSize.w,
+                '#000000'
+            );
+        });
     }
     
     togglePause() {

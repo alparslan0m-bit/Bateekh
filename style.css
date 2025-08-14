@@ -17,7 +17,9 @@
     --canvas-border: var(--palestinian-red);
     --snake-color: #1AB76C;
     --snake-head-color: #22E185;
-    --food-color: #FF4136;
+    --food-outer: #149954;  /* لون قشرة البطيخ */
+    --food-inner: #E4312B;  /* لون لب البطيخ */
+    --food-seeds: #000000;  /* لون البذور */
     --grid-color: rgba(20, 153, 84, 0.2);
     --button-bg: var(--palestinian-red);
     --button-hover: #FF4136;
@@ -137,6 +139,17 @@ h1 {
     backdrop-filter: blur(5px);
 }
 
+/* تنسيق شكل البطيخ في اللعبة */
+.watermelon-gradient {
+    background: radial-gradient(
+        circle at center,
+        var(--food-inner) 0%,
+        var(--food-inner) 60%,
+        var(--food-outer) 60.5%,
+        var(--food-outer) 100%
+    );
+}
+
 .game-over, .pause-screen {
     position: absolute;
     top: 50%;
@@ -190,7 +203,7 @@ h1 {
 
 .pause-screen h2 {
     margin-bottom: 20px;
-    color: #2196F3;
+    color: #f7f9fb;
     font-size: 1.8em;
 }
 
@@ -212,11 +225,6 @@ h1 {
 .game-over p {
     margin-bottom: 20px;
     font-size: 1.1em;
-}
-
-
-.hidden {
-    display: none !important;
 }
 
 /* Buttons */
@@ -349,38 +357,171 @@ button:active {
     }
 }
 
-@keyframes scroll-text {
+@keyframes scroll-right {
     0% {
-        transform: translateX(100%) rotate(var(--rotation, 0deg));
+        transform: translateX(-100%) rotate(var(--rotation, 0deg));
+        opacity: 0;
+    }
+    10% {
+        opacity: var(--text-opacity, 0.2);
+    }
+    90% {
+        opacity: var(--text-opacity, 0.2);
     }
     100% {
-        transform: translateX(-100%) rotate(var(--rotation, 0deg));
+        transform: translateX(100%) rotate(var(--rotation, 0deg));
+        opacity: 0;
     }
 }
 
-.container::before,
-.container::after {
-    content: 'حرية لفلسطين القدس عاصمة فلسطين من النهر إلى البحر غزة صامدة يافا حيفا عكا رام الله نابلس جنين الخليل';
+@keyframes scroll-left {
+    0% {
+        transform: translateX(100%) rotate(var(--rotation, 0deg));
+        opacity: 0;
+    }
+    10% {
+        opacity: var(--text-opacity, 0.2);
+    }
+    90% {
+        opacity: var(--text-opacity, 0.2);
+    }
+    100% {
+        transform: translateX(-100%) rotate(var(--rotation, 0deg));
+        opacity: 0;
+    }
+}
+
+.floating-text {
     position: fixed;
-    font-size: 2em;
-    opacity: 0.05;
+    font-size: 2.2em;
+    --text-opacity: 0.2;
     white-space: nowrap;
     pointer-events: none;
     font-family: 'Tajawal', sans-serif;
     color: var(--palestinian-white);
     z-index: -1;
+    width: 100%;
+    text-align: center;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    filter: blur(0.3px);
+    letter-spacing: 1px;
 }
 
-.container::before {
-    top: 15%;
+/* توزيع العبارات على ارتفاعات مختلفة مع حركات متنوعة */
+.floating-text:nth-child(1) { 
+    top: 5%; 
+    --rotation: 8deg;
+    animation: scroll-left 40s ease-in-out infinite;
+    --text-opacity: 0.25;
+}
+.floating-text:nth-child(2) { 
+    top: 15%; 
+    --rotation: -6deg;
+    animation: scroll-right 42s ease-in-out infinite;
+    animation-delay: -8s;
+}
+.floating-text:nth-child(3) { 
+    top: 25%; 
+    --rotation: 4deg;
+    animation: scroll-left 45s ease-in-out infinite;
+    animation-delay: -15s;
+    --text-opacity: 0.22;
+}
+.floating-text:nth-child(4) { 
+    top: 35%; 
+    --rotation: -8deg;
+    animation: scroll-right 43s ease-in-out infinite;
+    animation-delay: -20s;
+}
+.floating-text:nth-child(5) { 
+    top: 45%; 
+    --rotation: 6deg;
+    animation: scroll-left 44s ease-in-out infinite;
+    animation-delay: -12s;
+    --text-opacity: 0.23;
+}
+.floating-text:nth-child(6) { 
+    top: 55%; 
+    --rotation: -4deg;
+    animation: scroll-right 41s ease-in-out infinite;
+    animation-delay: -25s;
+}
+.floating-text:nth-child(7) { 
+    top: 65%; 
+    --rotation: 7deg;
+    animation: scroll-left 46s ease-in-out infinite;
+    animation-delay: -18s;
+    --text-opacity: 0.24;
+}
+.floating-text:nth-child(8) { 
+    top: 75%; 
+    --rotation: -5deg;
+    animation: scroll-right 43s ease-in-out infinite;
+    animation-delay: -30s;
+}
+.floating-text:nth-child(9) { 
+    top: 85%; 
+    --rotation: 5deg;
+    animation: scroll-left 42s ease-in-out infinite;
+    animation-delay: -22s;
+    --text-opacity: 0.21;
+}
+.floating-text:nth-child(10) { 
+    top: 95%; 
     --rotation: -15deg;
-    animation: scroll-text 30s linear infinite;
+    animation: scroll-right 48s ease-in-out infinite;
+    animation-delay: -15s;
+    --text-opacity: 0.25;
+    transform-origin: center center;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
-.container::after {
-    bottom: 15%;
-    --rotation: 15deg;
-    animation: scroll-text 25s linear infinite reverse;
+.floating-text:nth-child(11) { 
+    top: 10%; 
+    --rotation: 5deg;
+    animation: scroll-left 43s ease-in-out infinite;
+    animation-delay: -23s;
+    --text-opacity: 0.23;
+}
+
+.floating-text:nth-child(12) { 
+    top: 30%; 
+    --rotation: -6deg;
+    animation: scroll-right 45s ease-in-out infinite;
+    animation-delay: -17s;
+    --text-opacity: 0.22;
+}
+
+.floating-text:nth-child(13) { 
+    top: 50%; 
+    --rotation: 7deg;
+    animation: scroll-left 42s ease-in-out infinite;
+    animation-delay: -28s;
+    --text-opacity: 0.24;
+}
+
+.floating-text:nth-child(14) { 
+    top: 70%; 
+    --rotation: -5deg;
+    animation: scroll-right 44s ease-in-out infinite;
+    animation-delay: -19s;
+    --text-opacity: 0.21;
+}
+
+.floating-text:nth-child(15) { 
+    top: 90%; 
+    --rotation: 6deg;
+    animation: scroll-left 46s ease-in-out infinite;
+    animation-delay: -25s;
+    --text-opacity: 0.23;
+}
+
+.floating-text:nth-child(16) { 
+    top: 20%; 
+    --rotation: -8deg;
+    animation: scroll-right 44s ease-in-out infinite;
+    animation-delay: -16s;
+    --text-opacity: 0.24;
 }
 
 .pulse {
