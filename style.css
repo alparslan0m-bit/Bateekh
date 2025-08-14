@@ -1,0 +1,388 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Palestinian theme colors */
+    --palestinian-red: #E4312B;
+    --palestinian-green: #149954;
+    --palestinian-black: #000000;
+    --palestinian-white: #FFFFFF;
+    
+    /* Enhanced dark theme */
+    --bg-color: #121212;
+    --text-color: var(--palestinian-white);
+    --canvas-border: var(--palestinian-red);
+    --snake-color: #1AB76C;
+    --snake-head-color: #22E185;
+    --food-color: #FF4136;
+    --grid-color: rgba(20, 153, 84, 0.2);
+    --button-bg: var(--palestinian-red);
+    --button-hover: #FF4136;
+    --overlay-bg: rgba(18, 18, 18, 0.9);
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', 'Tajawal', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    direction: rtl;
+    transition: all 0.3s ease;
+    background-image: 
+        linear-gradient(45deg, 
+            rgba(20, 153, 84, 0.1) 25%, 
+            transparent 25%, 
+            transparent 75%, 
+            rgba(228, 49, 43, 0.1) 75%),
+        radial-gradient(
+            circle at center,
+            rgba(18, 18, 18, 0) 0%,
+            var(--bg-color) 100%
+        );
+    background-size: 60px 60px, 100% 100%;
+}
+
+.container {
+    text-align: center;
+    padding: 15px 20px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+}
+
+h1 {
+    margin-bottom: 15px;
+    font-size: 2.8em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    color: var(--palestinian-red);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 15px;
+    border-radius: 10px;
+    border: 2px solid var(--palestinian-green);
+    box-shadow: 0 3px 10px rgba(20, 153, 84, 0.3);
+    backdrop-filter: blur(5px);
+    color: var(--palestinian-white);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.score-display, .high-score-display {
+    position: relative;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: linear-gradient(
+        45deg,
+        rgba(20, 153, 84, 0.2),
+        rgba(228, 49, 43, 0.2)
+    );
+    margin: 0 5px;
+}
+
+.score-display span, .high-score-display span {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 0 5px;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+#gameContainer {
+    position: relative;
+    display: inline-block;
+    margin: 40px auto;
+    padding: 12px;
+    background: linear-gradient(45deg, 
+        var(--palestinian-red) 0%, 
+        var(--palestinian-red) 33%, 
+        var(--palestinian-black) 33%, 
+        var(--palestinian-black) 66%, 
+        var(--palestinian-green) 66%, 
+        var(--palestinian-green) 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    animation: subtle-glow 3s infinite alternate;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#gameCanvas {
+    border: 4px solid var(--palestinian-white);
+    border-radius: 12px;
+    background-color: var(--bg-color);
+    box-shadow: 0 0 40px rgba(20, 153, 84, 0.15),
+                inset 0 0 30px rgba(228, 49, 43, 0.1);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.game-over, .pause-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, 
+        rgba(20, 153, 84, 0.95) 0%, 
+        rgba(0, 0, 0, 0.95) 50%,
+        rgba(228, 49, 43, 0.95) 100%);
+    color: white;
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+    z-index: 10;
+    min-width: 280px;
+    border: 3px solid var(--palestinian-white);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.game-over #playAgain {
+    background-color: var(--palestinian-green);
+    font-size: 1.2em;
+    padding: 15px 30px;
+    margin-top: 10px;
+    border: 2px solid var(--palestinian-white);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.game-over #playAgain:hover {
+    background-color: var(--palestinian-red);
+    transform: scale(1.05);
+}
+
+.game-over h2, .pause-screen h2 {
+    margin-bottom: 20px;
+    color: var(--palestinian-white);
+    font-size: 2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+}
+
+.game-over p {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 25px;
+    color: var(--palestinian-white);
+}
+
+.pause-screen h2 {
+    margin-bottom: 20px;
+    color: #2196F3;
+    font-size: 1.8em;
+}
+
+.pause-screen p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.pause-msg {
+    color: #aaa;
+    font-size: 0.9em !important;
+    margin: 8px 0;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.game-over p {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+/* Buttons */
+button {
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Controls */
+.mobile-controls {
+    display: none;
+    margin-top: 20px;
+}
+
+.control-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 50%;
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.control-btn:active {
+    background-color: var(--button-hover);
+    transform: scale(0.95);
+}
+
+.game-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    #gameCanvas {
+        width: 320px;
+        height: 320px;
+    }
+    
+    .mobile-controls {
+        display: block;
+    }
+    
+    .game-info {
+        font-size: 1em;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .game-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    button {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 350px) {
+    #gameCanvas {
+        width: 280px;
+        height: 280px;
+    }
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes subtle-glow {
+    0% { 
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+    100% { 
+        box-shadow: 0 8px 32px rgba(20, 153, 84, 0.3),
+                   0 0 50px rgba(228, 49, 43, 0.2);
+    }
+}
+
+@keyframes scroll-text {
+    0% {
+        transform: translateX(100%) rotate(var(--rotation, 0deg));
+    }
+    100% {
+        transform: translateX(-100%) rotate(var(--rotation, 0deg));
+    }
+}
+
+.container::before,
+.container::after {
+    content: 'حرية لفلسطين القدس عاصمة فلسطين من النهر إلى البحر غزة صامدة يافا حيفا عكا رام الله نابلس جنين الخليل';
+    position: fixed;
+    font-size: 2em;
+    opacity: 0.05;
+    white-space: nowrap;
+    pointer-events: none;
+    font-family: 'Tajawal', sans-serif;
+    color: var(--palestinian-white);
+    z-index: -1;
+}
+
+.container::before {
+    top: 15%;
+    --rotation: -15deg;
+    animation: scroll-text 30s linear infinite;
+}
+
+.container::after {
+    bottom: 15%;
+    --rotation: 15deg;
+    animation: scroll-text 25s linear infinite reverse;
+}
+
+.pulse {
+    animation: pulse 0.3s ease;
+}

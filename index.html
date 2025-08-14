@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة الثعبان</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>فلسطين حرة</h1>
+        
+        <div class="game-info">
+            <div class="score-display">
+                <span>النقاط: </span>
+                <span id="score">0</span>
+            </div>
+            <div class="high-score-display">
+                <span>أعلى نتيجة: </span>
+                <span id="highScore">0</span>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button id="toggleWalls">الجدران: تشغيل</button>
+        </div>
+
+        <div id="gameContainer">
+            <canvas id="gameCanvas" width="400" height="400"></canvas>
+            
+            <div id="gameOver" class="game-over hidden">
+                <h2>متعيطش يا زلمة!</h2>
+                <p>النتيجة النهائية: <span id="finalScore">0</span></p>
+                <button id="playAgain">هنحررها </button>
+            </div>
+
+            <div id="pauseScreen" class="pause-screen hidden">
+                <h2>بدها طول نفس 
+                    خلي المعنويات عالية
+                </h2>
+    
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
