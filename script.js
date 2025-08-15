@@ -280,11 +280,11 @@ class SnakeGame {
     drawSnake() {
         this.snake.forEach((segment, index) => {
             if (index === 0) {
-                // Draw head
-                this.ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--snake-head-color');
+                // Draw head (green)
+                this.ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--palestinian-green');
             } else {
-                // Draw body
-                this.ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--snake-color');
+                // Draw body (red)
+                this.ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--palestinian-red');
             }
             
             const x = segment.x * this.gridSize;
@@ -307,43 +307,19 @@ class SnakeGame {
         
         const x = this.food.x * this.gridSize;
         const y = this.food.y * this.gridSize;
-        const size = this.gridSize * pulse;
-        const offset = (this.gridSize - size) / 2;
         
-        const drawSquare = (x, y, size, color) => {
-            this.ctx.fillStyle = color;
-            this.ctx.fillRect(x, y, size, size);
-        };
+        // Draw watermelon emoji
+        this.ctx.font = `${this.gridSize}px Arial`;
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
         
-        // رسم القشرة الخضراء (الإطار الخارجي)
-        drawSquare(x + offset, y + offset, size, '#149954');
-        
-        // رسم الجزء الداخلي الأحمر
-        const innerOffset = size * 0.15;
-        const innerSize = size * 0.7;
-        drawSquare(
-            x + offset + innerOffset,
-            y + offset + innerOffset,
-            innerSize,
-            '#E4312B'
-        );
-
-        // رسم البذور
-        const seedSize = { w: size * 0.1, h: size * 0.05 };
-        const seeds = [
-            { x: 0.4, y: 0.3 },
-            { x: 0.5, y: 0.5 },
-            { x: 0.3, y: 0.6 }
-        ];
-        
-        seeds.forEach(seed => {
-            drawSquare(
-                x + offset + size * seed.x,
-                y + offset + size * seed.y,
-                seedSize.w,
-                '#000000'
-            );
-        });
+        // Apply pulsing effect to the emoji
+        const scale = pulse;
+        this.ctx.save();
+        this.ctx.translate(x + this.gridSize/2, y + this.gridSize/2);
+        this.ctx.scale(scale, scale);
+        this.ctx.fillText('🍉', 0, 0);
+        this.ctx.restore();
     }
     
     togglePause() {

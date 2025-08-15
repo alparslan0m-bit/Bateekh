@@ -6,7 +6,7 @@
 
 :root {
     /* Palestinian theme colors */
-    --palestinian-red: #E4312B;
+    --palestinian-red: #B31B1B;
     --palestinian-green: #149954;
     --palestinian-black: #000000;
     --palestinian-white: #FFFFFF;
@@ -18,11 +18,11 @@
     --snake-color: #1AB76C;
     --snake-head-color: #22E185;
     --food-outer: #149954;  /* لون قشرة البطيخ */
-    --food-inner: #E4312B;  /* لون لب البطيخ */
+    --food-inner: #B31B1B;  /* لون لب البطيخ */
     --food-seeds: #000000;  /* لون البذور */
     --grid-color: rgba(20, 153, 84, 0.2);
     --button-bg: var(--palestinian-red);
-    --button-hover: #FF4136;
+    --button-hover: #8B0000;
     --overlay-bg: rgba(18, 18, 18, 0.9);
 }
 
@@ -61,12 +61,14 @@ body {
 h1 {
     margin-bottom: 15px;
     font-size: 2.8em;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5),
+                 -1px -1px 0 rgba(255, 255, 255, 0.2);
     color: var(--palestinian-red);
     font-weight: 700;
     position: relative;
     display: inline-block;
     font-family: 'Tajawal', sans-serif;
+    animation: pulse 3s infinite ease-in-out;
 }
 
 .game-info {
@@ -183,7 +185,7 @@ h1 {
     transform: scale(1.05);
 }
 
-.game-over h2, .pause-screen h2 {
+.pause-screen h2 {
     margin-bottom: 20px;
     color: var(--palestinian-white);
     font-size: 2em;
@@ -192,6 +194,18 @@ h1 {
     border-bottom: 2px solid rgba(255, 255, 255, 0.3);
     font-family: 'Tajawal', sans-serif;
     font-weight: 700;
+}
+
+.game-over h2 {
+    margin-bottom: 20px;
+    color: var(--palestinian-red);
+    font-size: 2em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--palestinian-red);
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 700;
+    animation: pulse 1.5s infinite;
 }
 
 .game-over p {
