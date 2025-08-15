@@ -18,7 +18,7 @@ class SnakeGame {
         this.highScore = parseInt(localStorage.getItem('snakeHighScore')) || 0;
         this.gameRunning = false;
         this.gamePaused = false;
-        this.wallMode = true;
+        this.wallMode = false;
         this.gameSpeed = 150;
         
         // Touch handling
